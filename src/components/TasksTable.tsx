@@ -1,3 +1,4 @@
+"use client";
 import { ITodo } from "@/interfaces/todo";
 import { useRouter } from "next/navigation";
 
@@ -13,29 +14,53 @@ export default function TasksTable({ todos, onEdit }: TasksTableProps) {
       <table className="min-w-full bg-white rounded-lg border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="py-3 px-4 text-left font-medium text-gray-700">Titre</th>
-            <th className="py-3 px-4 text-left font-medium text-gray-700">Statut</th>
-            <th className="py-3 px-4 text-center font-medium text-gray-700">Actions</th>
+            <th className="py-3 px-4 text-left font-medium text-gray-700">
+              Titre
+            </th>
+            <th className="py-3 px-4 text-left font-medium text-gray-700">
+              Statut
+            </th>
+            <th className="py-3 px-4 text-center font-medium text-gray-700">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {todos.length === 0 ? (
             <tr>
-              <td colSpan={3} className="text-center text-gray-400 py-8 text-lg">
+              <td
+                colSpan={3}
+                className="text-center text-gray-400 py-8 text-lg"
+              >
                 Aucune tâche pour le moment.
               </td>
             </tr>
           ) : (
             todos.map((todo) => (
-              <tr key={todo.id} className="border-b border-gray-100 hover:bg-gray-50 transition">
+              <tr
+                key={todo.id}
+                className="border-b border-gray-100 hover:bg-gray-50 transition"
+              >
                 <td className="py-3 px-4">
-                  <span className={todo.completed ? "line-through text-gray-400" : "text-gray-800 font-medium"}>{todo.title}</span>
+                  <span
+                    className={
+                      todo.completed
+                        ? "line-through text-gray-400"
+                        : "text-gray-800 font-medium"
+                    }
+                  >
+                    {todo.title}
+                  </span>
                 </td>
                 <td className="py-3 px-4">
                   {todo.completed ? (
-                    <span className="px-2 py-1 rounded bg-green-50 text-green-700 text-xs font-medium">Terminée</span>
+                    <span className="px-2 py-1 rounded bg-green-50 text-green-700 text-xs font-medium">
+                      Terminée
+                    </span>
                   ) : (
-                    <span className="px-2 py-1 rounded bg-yellow-50 text-yellow-700 text-xs font-medium">En cours</span>
+                    <span className="px-2 py-1 rounded bg-yellow-50 text-yellow-700 text-xs font-medium">
+                      En cours
+                    </span>
                   )}
                 </td>
                 <td className="py-3 px-4 flex gap-2 justify-center">

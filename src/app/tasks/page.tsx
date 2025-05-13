@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { ITodo } from "@/interfaces/todo";
-import { getTodos } from "@/gateways/todos";
 import { useRouter } from "next/navigation";
 import TasksTable from "@/components/TasksTable";
 
@@ -12,7 +11,12 @@ export default function TasksPage() {
   const [todos, setTodos] = useState<ITodo[]>([]);
 
   useEffect(() => {
-    setTodos(getTodos());
+    fetch("api/tasks")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setTodos([]);
+      });
   }, []);
 
   const router = useRouter();
