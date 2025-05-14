@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { addTodo } from "@/gateways/todos";
+import { createTask } from "@/gateways/todoMongoDBGateway";
 
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -18,7 +18,10 @@ export default function CreateTaskPage() {
       setError("Le titre est requis.");
       return;
     }
-    addTodo(title.trim(), completed);
+    createTask({
+      title: title.trim(),
+      status: completed ? "done" : "pending",
+    });
     router.push("/tasks");
   };
 
@@ -91,14 +94,18 @@ export default function CreateTaskPage() {
               <div className="flex flex-col gap-2">
                 <button
                   type="button"
-                  className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-none font-semibold"
+                  className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-none font-semibold cursor-pointer"
                   onClick={() => router.push("/tasks")}
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
+<<<<<<< HEAD
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-none font-bold shadow"
+=======
+                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-none font-bold shadow cursor-pointer"
+>>>>>>> upstream/main
                 >
                   Créer
                 </button>
@@ -217,14 +224,14 @@ export default function CreateTaskPage() {
           <div className="flex gap-2 justify-end mt-2">
             <button
               type="button"
-              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-transform duration-150 hover:scale-105"
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-transform duration-150 hover:scale-105 cursor-pointer"
               onClick={() => router.push("/tasks")}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow transition-transform duration-150 hover:scale-105 focus:scale-95"
+              className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow transition-transform duration-150 hover:scale-105 focus:scale-95 cursor-pointer"
             >
               Créer
             </button>

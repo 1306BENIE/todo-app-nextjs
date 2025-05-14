@@ -1,11 +1,12 @@
 "use client";
+<<<<<<< HEAD
 import { ITodo } from "@/interfaces/todo";
 import { useRouter } from "next/navigation";
+=======
+>>>>>>> upstream/main
 
-interface TasksTableProps {
-  todos: ITodo[];
-  onEdit: (id: number) => void;
-}
+import { useRouter } from "next/navigation";
+import { TasksTableProps } from "@/interfaces/todo";
 
 export default function TasksTable({ todos, onEdit }: TasksTableProps) {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function TasksTable({ todos, onEdit }: TasksTableProps) {
             </th>
           </tr>
         </thead>
+
         <tbody>
           {todos.length === 0 ? (
             <tr>
@@ -38,13 +40,21 @@ export default function TasksTable({ todos, onEdit }: TasksTableProps) {
           ) : (
             todos.map((todo) => (
               <tr
+<<<<<<< HEAD
                 key={todo.id}
+=======
+                key={todo._id}
+>>>>>>> upstream/main
                 className="border-b border-gray-100 hover:bg-gray-50 transition"
               >
                 <td className="py-3 px-4">
                   <span
                     className={
+<<<<<<< HEAD
                       todo.completed
+=======
+                      todo.status === "done"
+>>>>>>> upstream/main
                         ? "line-through text-gray-400"
                         : "text-gray-800 font-medium"
                     }
@@ -52,8 +62,13 @@ export default function TasksTable({ todos, onEdit }: TasksTableProps) {
                     {todo.title}
                   </span>
                 </td>
+
                 <td className="py-3 px-4">
+<<<<<<< HEAD
                   {todo.completed ? (
+=======
+                  {todo.status === "done" ? (
+>>>>>>> upstream/main
                     <span className="px-2 py-1 rounded bg-green-50 text-green-700 text-xs font-medium">
                       Terminée
                     </span>
@@ -63,17 +78,18 @@ export default function TasksTable({ todos, onEdit }: TasksTableProps) {
                     </span>
                   )}
                 </td>
+
                 <td className="py-3 px-4 flex gap-2 justify-center">
                   <button
-                    onClick={() => onEdit(todo.id)}
-                    className="px-3 py-1 rounded bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    onClick={() => onEdit(todo._id)}
+                    className="px-3 py-1 rounded bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-300 cursor-pointer"
                     title="Éditer"
                   >
                     Éditer
                   </button>
                   <button
-                    onClick={() => router.push(`/delete-tasks/${todo.id}`)}
-                    className="px-3 py-1 rounded bg-red-500 text-white text-xs font-semibold hover:bg-red-600 transition focus:outline-none focus:ring-2 focus:ring-red-300"
+                    onClick={() => router.push(`/delete-tasks/${todo._id}`)}
+                    className="px-3 py-1 rounded bg-red-500 text-white text-xs font-semibold hover:bg-red-600 transition focus:outline-none focus:ring-2 focus:ring-red-300 cursor-pointer"
                     title="Supprimer"
                   >
                     Supprimer

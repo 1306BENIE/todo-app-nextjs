@@ -2,48 +2,52 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { getTodos, saveTodos } from "@/gateways/todos";
+import { getTaskById, updateTask } from "@/gateways/todoMongoDBGateway";
 
 import { useTheme } from "@/contexts/ThemeContext";
 
 export default function UpdateTaskPage() {
   const router = useRouter();
   const { theme } = useTheme();
-  const params = useParams();
-  const id = Number(params.id);
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [completed, setCompleted] = useState(false);
   const [error, setError] = useState("");
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    const todos = getTodos();
-    const todo = todos.find((t) => t.id === id);
-    if (!todo) {
+    if (!id) return;
+    getTask(id.toString());
+
+    console.log("[] id", id);
+  }, [id]);
+
+  const getTask = async (id: string) => {
+    const task = await getTaskById(id);
+    console.log("🚀 ~ getTask ~ task:", task);
+    if (!task) {
       setNotFound(true);
       return;
     }
-    setTitle(todo.title);
-    setCompleted(todo.completed);
-  }, [id]);
+    setTitle(task.title);
+    setCompleted(task.status === "done");
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (title.trim() === "") {
       setError("Le titre est requis.");
       return;
     }
-    const todos = getTodos();
-    const idx = todos.findIndex((t) => t.id === id);
-    if (idx === -1) {
+    if (!id) return;
+    const task = await getTaskById(id.toString());
+    if (!task) {
       setNotFound(true);
       return;
     }
-    if (idx !== -1) {
-      todos[idx].title = title.trim();
-      todos[idx].completed = completed;
-      saveTodos(todos);
-    }
+    task.title = title.trim();
+    task.status = completed ? "done" : "pending";
+    await updateTask(task._id, task);
     router.push("/tasks");
   };
 
@@ -131,14 +135,14 @@ export default function UpdateTaskPage() {
           <div className="flex gap-2 justify-end mt-2">
             <button
               type="button"
-              className={`px-4 py-2 rounded-lg font-semibold`}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-transform duration-150 hover:scale-105 cursor-pointer"
               onClick={() => router.push("/tasks")}
             >
               Annuler
             </button>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow"
+              className={`bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow cursor-pointer`}
             >
               Enregistrer
             </button>

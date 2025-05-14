@@ -15,5 +15,8 @@ export async function connectDB() {
     bufferCommands: false,
   });
   connection = mongoDBIntance.connection;
+  if (!connection) {
+    console.log("MongoDB connected unsuccessfully");
+  }
   return connection;
 }
